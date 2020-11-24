@@ -1,36 +1,59 @@
-module.exports = (sequelize, Sequelize) => {
-    //const User=require("./student.model")
-    const Information= sequelize.define("info", {
-        id: {
-            type: Sequelize.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false,
-        },
-       
+const { Model} = require('sequelize');
 
-        firstname:{
-            type:Sequelize.STRING
-        },
-        lastname:{
-            type:Sequelize.STRING
-        },
+ 
+
+module.exports = (sequelize, DataTypes) => {
+  class Information extends Model {}
+  
+  Information.init({
+              id: {
+                    type: DataTypes.INTEGER,
+                    primaryKey: true,
+                    autoIncrement: true,
+                    allowNull: false,
+                },
+               
         
-         dob: { 
-             type: Sequelize.DATEONLY
-              },
-        age:{
-            type:Sequelize.INTEGER
-        },
-        mark:{
-            type:Sequelize.INTEGER
+                firstname:{
+                    type:DataTypes.STRING
+                },
+                lastname:{
+                    type:DataTypes.STRING
+                },
+                
+                 dob: { 
+                     type: DataTypes.DATEONLY
+                      },
 
-        },
-        attendance:{
-            type:Sequelize.INTEGER
-        },
-    })
+                gender: {
+                    type:DataTypes. STRING,
+                    enum : ['male', 'female', 'other'],
+                    },
+                age:{
+                    type:DataTypes.INTEGER
+                },
+                section:{
+                   type:DataTypes.STRING
+                },
+                contact:{
+                    type:DataTypes.INTEGER
+                },
+                mark:{
+                    type:DataTypes.INTEGER
+                   
+        
+                },
+                attendance:{
+                    type:DataTypes.INTEGER
+                },
+  }, {
+    sequelize,
+    modelName: 'Information'
+  })
+  console.log(Information === sequelize.models.Information); // true
 
+ 
 
-    return Information
-}
+  return Information;
+};
+ 

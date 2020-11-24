@@ -17,6 +17,9 @@ app.use("/api/students", inforouter);
 
 
 const db = require("./models/index");
+
+
+//const { db } = require('./models/user');
 //db.sequelize.sync();
 // drop the table if it already exists
 // db.sequelize.sync({ force: true }).then(() => {
@@ -36,4 +39,5 @@ const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
 })
