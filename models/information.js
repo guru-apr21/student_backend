@@ -1,8 +1,6 @@
 const { Model} = require('sequelize');
 
- 
-
-module.exports = (sequelize, DataTypes) => {
+ module.exports = (sequelize, DataTypes) => {
   class Information extends Model {}
   
   Information.init({
@@ -44,8 +42,8 @@ module.exports = (sequelize, DataTypes) => {
         
                 },
                 attendance:{
-                    type:DataTypes.INTEGER
-                },
+                    type:DataTypes.STRING
+                }
   }, {
     sequelize,
     modelName: 'Information'

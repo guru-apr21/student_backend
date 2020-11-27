@@ -11,6 +11,7 @@ exports.signup = async (req, res, next) => {
   if (!name) {
     errors.push({ name: "required" });
   }
+  
   if (!email) {
     errors.push({ email: "required" });
   }
