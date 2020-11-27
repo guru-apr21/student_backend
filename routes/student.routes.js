@@ -8,9 +8,10 @@ router.post('/signin', signin);
 router.post('/create',student.create);
 router.post('/all',student.retrieveAllStudents);
 router.post('/onebyid/:id',student.getStudentById);
-
+router.post('/update/:id',student.updateById)
+router.post('/delete/:id',student.deleteById)
 
 
 module.exports=router;
-//router.post('/create', create);
+
 

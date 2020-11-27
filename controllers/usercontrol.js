@@ -73,5 +73,77 @@ exports.getStudentById = async(req, res) => {
         });
   }
 
+  exports.updateById = async (req, res) => {
+    try{
+        let studentId = req.params.id;
+        let student = await Information.findByPk(studentId);
+    
+        if(!student){
+            // return a response to client
+            res.status(404).json({
+                message: "Not Found for updating a customer with id = " + studentId,
+                student: "",
+                error: "404"
+                
+            });
+        } else {    
+            // update new change to database
+            let updatedObject = {
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
+                dob: req.body.dob,
+                gender:req.body.gender,
+                age: req.body.age,
+                section:req.body.section,
+                contact:req.body.contact,
+                mark:req.body.mark,
+                attendance:req.body.attendance
+            }
+            let result = await Information.update(updatedObject, {returning: true, where: {id: studentId}});
+            
+            // return the response to client
+            if(!result) {
+                res.status(500).json({
+                    message: "Error -> Can not update a student with id = " + req.params.id,
+                    error: "Can NOT Updated",
+                });
+            }
+
+            res.status(200).json({
+                message: "Update successfully a Student with id = " + studentId,
+                student: updatedObject,
+            });
+        }
+    } catch(error){
+        res.status(500).json({
+            message: "Error -> Can not update a student with id = " + req.params.id,
+            error: error.message
+        });
+    }
+}
 
 
+exports.deleteById = async (req, res) => {
+    try{
+        let studentId = req.params.id;
+        let student = await Information.findByPk(studentId);
+
+        if(!student){
+            res.status(404).json({
+                message: "Does Not exist a Student with id = " + studentId,
+                error: "404",
+            });
+        } else {
+            await student.destroy();
+            res.status(200).json({
+                message: "Delete Successfully a Student with id = " + studentId,
+                student: student,
+            });
+        }
+    } catch(error) {
+        res.status(500).json({
+            message: "Error -> Can NOT delete a Student with id = " + req.params.id,
+            error: error.message,
+        });
+    }
+}
