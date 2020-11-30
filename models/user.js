@@ -13,9 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       allowNull: false,
   },
-    name: {
-    type: DataTypes.STRING
-  },
+  //   name: {
+  //   type: DataTypes.STRING
+  // },
 
     email: {
       type: DataTypes.STRING,

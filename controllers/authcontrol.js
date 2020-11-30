@@ -1,11 +1,14 @@
 const {User }= require('../models');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+//TOKEN_SECRET='hZ0xG5dY2dC8h'
 const {
-   createJWT,
+  createJWT
+   
 } = require("../middleware/auth");
 const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 exports.signup = async (req, res, next) => {
+  console.log(req)
   let { name, email, password, password_confirmation } = req.body;
   let errors = [];
   if (!name) {
@@ -33,7 +36,7 @@ exports.signup = async (req, res, next) => {
     return res.status(422).json({ errors: errors });
      }
   console.log(User);
-  await User.findOne({where:{
+   User.findOne({where:{
      email:req.body.email
  }})
     .then(user=>{
@@ -65,7 +68,7 @@ exports.signup = async (req, res, next) => {
      }
   }).catch(err =>{
       res.status(500).json({
-        errors: [{ error: 'Something went wrong' }]
+        errors: [{ error: 'test' }]
       });
   })
 }
@@ -85,6 +88,7 @@ exports.signin = async (req, res) => {
       return res.status(422).json({ errors: errors });
      }
    await User.findOne({ where:{ email:req.body.email}}).then(user => {
+    console.log(user,"errrrrrr")
         if (!user) {
           return res.status(404).json({
             errors: [{ user: "not found" }],
@@ -100,11 +104,13 @@ exports.signin = async (req, res) => {
           user.email,
           user._id,
           3600
+          
        );
        jwt.verify(access_token, process.env.TOKEN_SECRET, (err,
 decoded) => {
          if (err) {
-            res.status(500).json({ erros: err });
+           console.log("first err",err)
+            res.status(500).json({ errors: err });
          }
          if (decoded) {
              return res.status(200).json({
@@ -115,10 +121,34 @@ decoded) => {
            }
          });
         }).catch(err => {
-          res.status(500).json({ erros: err });
+          console.log("second err",err)
+          
+          res.status(500).json({ errors: err });
         });
       }
    }).catch(err => {
-      res.status(500).json({ erros: err });
+     console.log("thired error",err)
+      res.status(500).json({ errors: err });
    });
 }
+
+
+
+exports.tokenIsValid= async (req, res) => {
+  try {
+    const token = req.header("x-auth-token");
+    if (!token) return res.json(false);
+
+    const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+    if (!verified) return res.json(false);
+
+    const user = await User.findById(verified.id);
+    if (!user) return res.json(false);
+
+    return res.json(true);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+
