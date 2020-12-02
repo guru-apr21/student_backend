@@ -1,5 +1,5 @@
 const {Information }= require('../models')
-//students record are created
+//students record are created and save in to database
 
 exports.create = async(req, res) => {
     let student = {};
@@ -72,7 +72,7 @@ exports.getStudentById = async(req, res) => {
           });
         });
   }
-
+//update a student record in to database
   exports.updateById = async (req, res) => {
     try{
         let studentId = req.params.id;
@@ -121,7 +121,7 @@ exports.getStudentById = async(req, res) => {
         });
     }
 }
-
+//delete the student record in DB
 
 exports.deleteById = async (req, res) => {
     try{

@@ -9,12 +9,12 @@ const inforouter=require('./routes/student.routes')
 var corsOptions = {
   origin: "http://localhost:8081"
 };
+//middleware
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors(corsOptions));
 app.use("/api/students", inforouter);
-
 
 const db = require("./models/index");
 
