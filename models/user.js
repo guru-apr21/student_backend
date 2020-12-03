@@ -1,9 +1,13 @@
-const { Model } = require('sequelize');
+const { Model } = require('sequelize')
 
- 
+ module.exports = (sequelize, DataTypes) => {
+  class User extends Model {
+   static associate(models){
+     this.hasMany(models.Question)
+     this.hasMany(models.Answer)
+   }
 
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {}
+  }
   
   User.init({
 
@@ -13,28 +17,35 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       allowNull: false,
   },
-  //   name: {
-  //   type: DataTypes.STRING
-  // },
-
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    password: {
-      type: DataTypes.STRING,
-    },
-    
-    
-    // displayName:{
-    //   type:DataTypes.STRING
-    // }
+  //name: { type: DataTypes.STRING, allowNull: false },
+  email: { type: DataTypes.STRING, allowNull: false },
+  password: { type: DataTypes.STRING, allowNull: false },
+  //role: { type: DataTypes.STRING, allowNull: false },
+  //gender: { type: DataTypes.STRING, allowNull: false },
+  //profilePic: { type: DataTypes.STRING },
+   
+ 
+  
   }, {
     sequelize,
     modelName: 'User'
   })
   console.log(User === sequelize.models.User); // true
+  
+//   User.associate = (models) => {
+//     User.hasOne(models.Question, {
+//         foreignKey: "uid",
+        
+//     });
+// }
 
+// User.associate = (models) => {
+//   User.hasOne(models.Answer, {
+//       foreignKey: "uid",
+      
+
+//   });
+// }
  
 
   return User;

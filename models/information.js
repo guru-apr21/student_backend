@@ -1,7 +1,13 @@
 const { Model} = require('sequelize');
+const {User}=require('../models/user')
 
  module.exports = (sequelize, DataTypes) => {
-  class Information extends Model {}
+  class Information extends Model {
+    static associate(models){
+        this.hasMany(models.Enroll)
+    
+      }
+  }
   
   Information.init({
               id: {
@@ -11,47 +17,25 @@ const { Model} = require('sequelize');
                     allowNull: false,
                 },
                
-        
-                firstname:{
-                    type:DataTypes.STRING
-                },
-                lastname:{
-                    type:DataTypes.STRING
-                },
-                
-                 dob: { 
-                     type: DataTypes.DATEONLY
-                      },
+                date: { type: DataTypes.DATE, default: Date.now },
+                nCourses: { type: DataTypes.INTEGER, default: 0 },
 
-                gender: {
-                    type:DataTypes. STRING,
-                    enum : ['male', 'female', 'other'],
-                    },
-                age:{
-                    type:DataTypes.INTEGER
-                },
-                section:{
-                   type:DataTypes.STRING
-                },
-                contact:{
-                    type:DataTypes.INTEGER
-                },
-                mark:{
-                    type:DataTypes.INTEGER
-                   
-        
-                },
-                attendance:{
-                    type:DataTypes.STRING
-                }
+              
   }, {
     sequelize,
     modelName: 'Information'
   })
   console.log(Information === sequelize.models.Information); // true
 
- 
+//   Information.associate = (models) => {
+//     Information.belongsTo(models.Enroll, {
+//         foreignKey: "uid",
+//         localfield: "uid"
 
+//     })
+    
+// }
   return Information;
 };
  
+//User.Information = User.belongsTo(Information);
